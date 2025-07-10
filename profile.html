@@ -11,7 +11,6 @@
       margin: 0;
       padding: 0;
       transition: background-color 0.3s ease;
-      background-color: #f2efe9; /* default */
     }
 
     .profile {
@@ -94,7 +93,6 @@
   </section>
 
   <script>
-    // استخراج البيانات من الرابط
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username") || "اسم غير معروف";
     const userId = params.get("id") || "لا يوجد";
@@ -104,7 +102,6 @@
     document.getElementById("user-id").textContent = userId;
     document.getElementById("rank").value = userRank;
 
-    // تغيير لون الخلفية حسب الرتبة
     const rankColors = {
       beginner: "#f2efe9",
       pro: "#e6f7ff",
@@ -114,7 +111,6 @@
     };
     document.body.style.backgroundColor = rankColors[userRank] || "#ffffff";
 
-    // عند الترقية
     function upgradeUser() {
       const selectedRank = document.getElementById("rank").value;
       alert("تم ترقية " + username + " إلى رتبة: " + selectedRank);
