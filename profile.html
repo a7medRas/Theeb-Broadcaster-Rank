@@ -13,14 +13,12 @@
       background-color: #fdf9f4;
       color: #333;
     }
-
     .container {
       max-width: 700px;
       margin: auto;
       padding: 2rem;
       text-align: center;
     }
-
     img {
       width: 140px;
       height: 140px;
@@ -28,12 +26,10 @@
       border: 4px solid white;
       box-shadow: 0 0 8px rgba(0,0,0,0.2);
     }
-
     h2 {
       margin-top: 1rem;
       font-size: 2rem;
     }
-
     .badge {
       display: inline-block;
       background: #DCC6A0;
@@ -43,11 +39,9 @@
       font-weight: bold;
       margin-top: 0.5rem;
     }
-
     .achievements {
       margin-top: 1rem;
     }
-
     .achievements span {
       background: #ffeeba;
       color: #444;
@@ -58,7 +52,6 @@
       font-size: 0.9rem;
       border: 1px solid #e3c778;
     }
-
     .section {
       background: white;
       border-radius: 12px;
@@ -67,22 +60,18 @@
       text-align: right;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
-
     .section h3 {
       margin-bottom: 1rem;
       color: #222;
     }
-
     .progress-item {
       margin-bottom: 1rem;
     }
-
     .progress-label {
       display: flex;
       justify-content: space-between;
       font-size: 0.95rem;
     }
-
     .progress-bar-container {
       background: #eee;
       border-radius: 10px;
@@ -90,24 +79,20 @@
       height: 10px;
       margin-top: 4px;
     }
-
     .progress-bar {
       background: #DCC6A0;
       height: 100%;
       width: 0%;
       transition: width 0.5s ease-in-out;
     }
-
     ul {
       list-style: none;
       padding: 0;
     }
-
     ul li {
       margin-bottom: 0.5rem;
       font-size: 1rem;
     }
-
     ul li::before {
       content: "✓ ";
       color: green;
@@ -119,7 +104,8 @@
   <div class="container">
     <img src="broadcaster.jpg" alt="صورة المذيع">
     <h2 id="username">اسم المذيع</h2>
-    <p><strong>ID:</strong> <span id="user-id">معرف</span></p>
+    <p><strong>ID:</strong> <span id="user-id">--</span></p>
+    <p><strong>🫘 الفاصوليا:</strong> <span id="beans-count">--</span></p>
     <div class="badge" id="current-rank">💎 VIP</div>
 
     <div class="achievements" id="achievements">
@@ -178,7 +164,7 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username");
-    const sheetAPI = "https://script.google.com/macros/s/AKfycbyFwhAVRPLXxDUm9apG9Cau4tZ0vDH8UsKv3P7JFJp_Jirn_5KCss2Bq6ShbOpVNLsiCg/exec?username=" + encodeURIComponent(username);
+    const sheetAPI = "https://script.google.com/macros/s/AKfycbxDEG_HqpC0cZdFe7AXu2tSpB3DJv8nEOkdfFnF04ml2SUhkkSaY7LaP5THjzy6NlPdHg/exec?username=" + encodeURIComponent(username);
 
     fetch(sheetAPI)
       .then(res => res.json())
@@ -186,9 +172,11 @@
         document.getElementById("username").textContent = data.username || "اسم غير معروف";
         document.getElementById("user-id").textContent = data.id || "غير متوفر";
         document.getElementById("current-rank").textContent = data.rank || "غير محدد";
+        document.getElementById("beans-count").textContent = data.beans || "0";
 
         // الشارات
-        document.getElementById("achievements").innerHTML = data.achievements.split(';').map(a => `<span>${a}</span>`).join('');
+        document.getElementById("achievements").innerHTML =
+          data.achievements.split(';').map(a => `<span>${a}</span>`).join('');
 
         // Progress Bars
         document.getElementById("hours-text").textContent = `${data.hours} / 100`;
@@ -206,7 +194,8 @@
         `;
 
         // المزايا
-        document.getElementById("benefits").innerHTML = data.benefits.split(';').map(b => `<li>${b}</li>`).join('');
+        document.getElementById("benefits").innerHTML =
+          data.benefits.split(';').map(b => `<li>${b}</li>`).join('');
       })
       .catch(err => {
         alert("حدث خطأ أثناء تحميل بيانات المذيع.");
