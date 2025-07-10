@@ -119,88 +119,99 @@
   <div class="container">
     <img src="broadcaster.jpg" alt="صورة المذيع">
     <h2 id="username">اسم المذيع</h2>
-    <p><strong>ID:</strong> <span id="user-id">123456</span></p>
+    <p><strong>ID:</strong> <span id="user-id">معرف</span></p>
     <div class="badge" id="current-rank">💎 VIP</div>
 
-    <!-- أوسمة -->
-    <div class="achievements">
-      <span>🔥 متفاعل دائم</span>
-      <span>⭐ تقييم عالي</span>
-      <span>🏆 أكثر دعوات</span>
+    <div class="achievements" id="achievements">
+      <span>تحميل...</span>
     </div>
 
-    <!-- الشروط المحققة -->
     <div class="section">
       <h3>الشروط المحققة حتى الآن</h3>
 
       <div class="progress-item">
         <div class="progress-label">
           <span>ساعات البث</span>
-          <span>85 / 100</span>
+          <span id="hours-text">-- / 100</span>
         </div>
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width:85%;"></div>
+          <div class="progress-bar" id="hours-bar"></div>
         </div>
       </div>
 
       <div class="progress-item">
         <div class="progress-label">
           <span>التقييم</span>
-          <span>4.8 / 5</span>
+          <span id="rating-text">-- / 5</span>
         </div>
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width:96%;"></div>
+          <div class="progress-bar" id="rating-bar"></div>
         </div>
       </div>
 
       <div class="progress-item">
         <div class="progress-label">
           <span>الدعوات</span>
-          <span>3 / 4</span>
+          <span id="invites-text">-- / 4</span>
         </div>
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width:75%;"></div>
+          <div class="progress-bar" id="invites-bar"></div>
         </div>
       </div>
     </div>
 
-    <!-- المتبقي للترقية -->
     <div class="section">
       <h3>ما تبقى للترقية القادمة</h3>
-      <ul>
-        <li>تبقى 15 ساعة بث</li>
-        <li>تبقى دعوة واحدة</li>
+      <ul id="next-steps">
+        <li>تحميل البيانات...</li>
       </ul>
     </div>
 
-    <!-- المزايا الحالية -->
     <div class="section">
-      <h3>مزايا المستوى الحالي (💎 VIP)</h3>
-      <ul>
-        <li>دعم مخصص من الإدارة</li>
-        <li>ظهور في أعلى قوائم البث</li>
-        <li>زيادة في الأرباح بنسبة 10%</li>
+      <h3>مزايا المستوى الحالي</h3>
+      <ul id="benefits">
+        <li>تحميل...</li>
       </ul>
     </div>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const username = params.get("username") || "اسم غير معروف";
-    const userId = params.get("id") || "غير متوفر";
-    const userRank = params.get("rank") || "vip";
+    const username = params.get("username");
+    const sheetAPI = "https://script.google.com/macros/s/AKfycbyFwhAVRPLXxDUm9apG9Cau4tZ0vDH8UsKv3P7JFJp_Jirn_5KCss2Bq6ShbOpVNLsiCg/exec?username=" + encodeURIComponent(username);
 
-    const rankNames = {
-      beginner: "🥉 مبتدئ",
-      pro: "🥈 محترف",
-      vip: "💎 VIP",
-      svip: "👑 SVIP",
-      ssvip: "🌟 SSVIP"
-    };
+    fetch(sheetAPI)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("username").textContent = data.username || "اسم غير معروف";
+        document.getElementById("user-id").textContent = data.id || "غير متوفر";
+        document.getElementById("current-rank").textContent = data.rank || "غير محدد";
 
-    document.getElementById("username").textContent = username;
-    document.getElementById("user-id").textContent = userId;
-    document.getElementById("current-rank").textContent = rankNames[userRank] || "💎 VIP";
+        // الشارات
+        document.getElementById("achievements").innerHTML = data.achievements.split(';').map(a => `<span>${a}</span>`).join('');
+
+        // Progress Bars
+        document.getElementById("hours-text").textContent = `${data.hours} / 100`;
+        document.getElementById("rating-text").textContent = `${data.rating} / 5`;
+        document.getElementById("invites-text").textContent = `${data.invites} / 4`;
+
+        document.getElementById("hours-bar").style.width = Math.min((data.hours / 100) * 100, 100) + "%";
+        document.getElementById("rating-bar").style.width = Math.min((data.rating / 5) * 100, 100) + "%";
+        document.getElementById("invites-bar").style.width = Math.min((data.invites / 4) * 100, 100) + "%";
+
+        // المتبقي للترقية
+        document.getElementById("next-steps").innerHTML = `
+          <li>تبقى ${data.next_rank_hours} ساعة بث</li>
+          <li>تبقى ${data.next_rank_invites} دعوة</li>
+        `;
+
+        // المزايا
+        document.getElementById("benefits").innerHTML = data.benefits.split(';').map(b => `<li>${b}</li>`).join('');
+      })
+      .catch(err => {
+        alert("حدث خطأ أثناء تحميل بيانات المذيع.");
+        console.error(err);
+      });
   </script>
 </body>
 </html>
