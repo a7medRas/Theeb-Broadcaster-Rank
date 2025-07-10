@@ -10,8 +10,8 @@
       font-family: 'Cairo', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #fdf9f4;
       color: #333;
+      transition: background-color 0.4s ease;
     }
     .container {
       max-width: 700px;
@@ -44,7 +44,6 @@
     }
     .achievements span {
       background: #ffeeba;
-      color: #444;
       display: inline-block;
       padding: 0.4rem 0.8rem;
       margin: 0.25rem;
@@ -62,7 +61,6 @@
     }
     .section h3 {
       margin-bottom: 1rem;
-      color: #222;
     }
     .progress-item {
       margin-bottom: 1rem;
@@ -91,12 +89,33 @@
     }
     ul li {
       margin-bottom: 0.5rem;
-      font-size: 1rem;
     }
     ul li::before {
       content: "✓ ";
       color: green;
       font-weight: bold;
+    }
+    #congrats {
+      display: none;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    #upgrade-button {
+      display: none;
+      margin: 1rem auto;
+      padding: 0.7rem 2rem;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -114,60 +133,23 @@
 
     <div class="section">
       <h3>الشروط المحققة حتى الآن</h3>
-
-      <div class="progress-item">
-        <div class="progress-label">
-          <span>ساعات البث</span>
-          <span id="hours-text">-- / 31</span>
-        </div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="hours-bar"></div>
-        </div>
-      </div>
-
-      <div class="progress-item">
-        <div class="progress-label">
-          <span>التقييم</span>
-          <span id="rating-text">-- / 5</span>
-        </div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="rating-bar"></div>
-        </div>
-      </div>
-
-      <div class="progress-item">
-        <div class="progress-label">
-          <span>الدعوات</span>
-          <span id="invites-text">-- / 7</span>
-        </div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="invites-bar"></div>
-        </div>
-      </div>
-
-      <div class="progress-item">
-        <div class="progress-label">
-          <span>عدد الفاصوليا</span>
-          <span id="beans-text">-- / 500,000</span>
-        </div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="beans-bar"></div>
-        </div>
-      </div>
+      <div class="progress-item"><div class="progress-label"><span>ساعات البث</span><span id="hours-text">-- / 31</span></div><div class="progress-bar-container"><div class="progress-bar" id="hours-bar"></div></div></div>
+      <div class="progress-item"><div class="progress-label"><span>التقييم</span><span id="rating-text">-- / 5</span></div><div class="progress-bar-container"><div class="progress-bar" id="rating-bar"></div></div></div>
+      <div class="progress-item"><div class="progress-label"><span>الدعوات</span><span id="invites-text">-- / 7</span></div><div class="progress-bar-container"><div class="progress-bar" id="invites-bar"></div></div></div>
+      <div class="progress-item"><div class="progress-label"><span>عدد الفاصوليا</span><span id="beans-text">-- / 500,000</span></div><div class="progress-bar-container"><div class="progress-bar" id="beans-bar"></div></div></div>
     </div>
 
     <div class="section">
       <h3>ما تبقى للترقية القادمة</h3>
-      <ul id="next-steps">
-        <li>تحميل البيانات...</li>
-      </ul>
+      <ul id="next-steps"><li>تحميل البيانات...</li></ul>
     </div>
+
+    <div id="congrats">🎉 مبروك! تم تحقيق جميع شروط الترقية</div>
+    <button id="upgrade-button">ترقية المذيع</button>
 
     <div class="section">
       <h3>مزايا المستوى الحالي</h3>
-      <ul id="benefits">
-        <li>تحميل...</li>
-      </ul>
+      <ul id="benefits"><li>تحميل...</li></ul>
     </div>
   </div>
 
@@ -190,11 +172,21 @@
         document.getElementById("current-rank").textContent = data.rank || "غير محدد";
         document.getElementById("beans-count").textContent = beans.toLocaleString();
 
+        // لون الخلفية حسب الرتبة
+        const bgColors = {
+          "مبتدئ": "#fdf9f4",
+          "محترف": "#f5ecd8",
+          "vip": "#fff6d1",
+          "svip": "#fce9a6",
+          "ssvip": "#fae48b"
+        };
+        document.body.style.backgroundColor = bgColors[currentRank] || "#fdf9f4";
+
         // الشارات
         document.getElementById("achievements").innerHTML =
           data.achievements.split(';').map(a => `<span>${a}</span>`).join('');
 
-        // Progress Bars
+        // Progress
         document.getElementById("hours-text").textContent = `${hours} / 31`;
         document.getElementById("rating-text").textContent = `${rating} / 5`;
         document.getElementById("invites-text").textContent = `${invites} / 7`;
@@ -205,12 +197,11 @@
         document.getElementById("invites-bar").style.width = Math.min((invites / 7) * 100, 100) + "%";
         document.getElementById("beans-bar").style.width = Math.min((beans / 500000) * 100, 100) + "%";
 
-        // نظام الترقية حسب الرتبة
         const ranks = {
-          "مبتدئ":   { next: "محترف", beans: 11000, rating: 3.5, invites: 1 },
-          "محترف":  { next: "VIP",    beans: 50000, rating: 4.0, invites: 3 },
-          "vip":     { next: "SVIP",   beans: 150000, rating: 4.5, invites: 5 },
-          "svip":    { next: "SSVIP",  beans: 500000, rating: 4.8, invites: 7 }
+          "مبتدئ": { next: "محترف", beans: 11000, rating: 3.5, invites: 1 },
+          "محترف": { next: "VIP", beans: 50000, rating: 4.0, invites: 3 },
+          "vip": { next: "SVIP", beans: 150000, rating: 4.5, invites: 5 },
+          "svip": { next: "SSVIP", beans: 500000, rating: 4.8, invites: 7 }
         };
 
         let upgrade = ranks[currentRank] || null;
@@ -228,18 +219,22 @@
             <li>تبقى ${remainingInvites} دعوة</li>
             <li>تبقى ${remainingBeans.toLocaleString()} فاصوليا</li>
           `;
+
+          // تحقق الشروط كاملة؟
+          if (remainingHours <= 0 && remainingRating <= 0 && remainingInvites <= 0 && remainingBeans <= 0) {
+            document.getElementById("congrats").style.display = "block";
+            document.getElementById("upgrade-button").style.display = "inline-block";
+          }
         } else {
-          document.getElementById("next-steps").innerHTML = `
-            <li>أنت في أعلى رتبة أو لم تُعرف رتبتك.</li>
-          `;
+          document.getElementById("next-steps").innerHTML = `<li>أنت في أعلى رتبة أو لم تُعرف رتبتك.</li>`;
         }
 
-        // المزايا
+        // مزايا
         document.getElementById("benefits").innerHTML =
           data.benefits.split(';').map(b => `<li>${b}</li>`).join('');
       })
       .catch(err => {
-        alert("حدث خطأ أثناء تحميل بيانات المذيع.");
+        alert("حدث خطأ أثناء تحميل البيانات");
         console.error(err);
       });
   </script>
