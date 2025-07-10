@@ -118,7 +118,7 @@
       <div class="progress-item">
         <div class="progress-label">
           <span>ساعات البث</span>
-          <span id="hours-text">-- / 100</span>
+          <span id="hours-text">-- / 31</span>
         </div>
         <div class="progress-bar-container">
           <div class="progress-bar" id="hours-bar"></div>
@@ -138,7 +138,7 @@
       <div class="progress-item">
         <div class="progress-label">
           <span>الدعوات</span>
-          <span id="invites-text">-- / 4</span>
+          <span id="invites-text">-- / 7</span>
         </div>
         <div class="progress-bar-container">
           <div class="progress-bar" id="invites-bar"></div>
@@ -148,7 +148,7 @@
       <div class="progress-item">
         <div class="progress-label">
           <span>عدد الفاصوليا</span>
-          <span id="beans-text">-- / 10,000,000</span>
+          <span id="beans-text">-- / 500,000</span>
         </div>
         <div class="progress-bar-container">
           <div class="progress-bar" id="beans-bar"></div>
@@ -180,6 +180,10 @@
       .then(res => res.json())
       .then(data => {
         const beans = parseInt(data.beans || 0);
+        const rating = parseFloat(data.rating || 0);
+        const invites = parseInt(data.invites || 0);
+        const hours = parseInt(data.hours || 0);
+        const currentRank = (data.rank || "").toLowerCase();
 
         document.getElementById("username").textContent = data.username || "اسم غير معروف";
         document.getElementById("user-id").textContent = data.id || "غير متوفر";
@@ -191,22 +195,44 @@
           data.achievements.split(';').map(a => `<span>${a}</span>`).join('');
 
         // Progress Bars
-        document.getElementById("hours-text").textContent = `${data.hours} / 100`;
-        document.getElementById("rating-text").textContent = `${data.rating} / 5`;
-        document.getElementById("invites-text").textContent = `${data.invites} / 4`;
-        document.getElementById("beans-text").textContent = `${beans.toLocaleString()} / 10,000,000`;
+        document.getElementById("hours-text").textContent = `${hours} / 31`;
+        document.getElementById("rating-text").textContent = `${rating} / 5`;
+        document.getElementById("invites-text").textContent = `${invites} / 7`;
+        document.getElementById("beans-text").textContent = `${beans.toLocaleString()} / 500,000`;
 
-        document.getElementById("hours-bar").style.width = Math.min((data.hours / 100) * 100, 100) + "%";
-        document.getElementById("rating-bar").style.width = Math.min((data.rating / 5) * 100, 100) + "%";
-        document.getElementById("invites-bar").style.width = Math.min((data.invites / 4) * 100, 100) + "%";
-        document.getElementById("beans-bar").style.width = Math.min((beans / 10000000) * 100, 100) + "%";
+        document.getElementById("hours-bar").style.width = Math.min((hours / 31) * 100, 100) + "%";
+        document.getElementById("rating-bar").style.width = Math.min((rating / 5) * 100, 100) + "%";
+        document.getElementById("invites-bar").style.width = Math.min((invites / 7) * 100, 100) + "%";
+        document.getElementById("beans-bar").style.width = Math.min((beans / 500000) * 100, 100) + "%";
 
-        // المتبقي للترقية
-        document.getElementById("next-steps").innerHTML = `
-          <li>تبقى ${data.next_rank_hours} ساعة بث</li>
-          <li>تبقى ${data.next_rank_invites} دعوة</li>
-          <li>تبقى ${(10000000 - beans).toLocaleString()} فاصوليا</li>
-        `;
+        // نظام الترقية حسب الرتبة
+        const ranks = {
+          "مبتدئ":   { next: "محترف", beans: 11000, rating: 3.5, invites: 1 },
+          "محترف":  { next: "VIP",    beans: 50000, rating: 4.0, invites: 3 },
+          "vip":     { next: "SVIP",   beans: 150000, rating: 4.5, invites: 5 },
+          "svip":    { next: "SSVIP",  beans: 500000, rating: 4.8, invites: 7 }
+        };
+
+        let upgrade = ranks[currentRank] || null;
+
+        if (upgrade) {
+          let remainingBeans = Math.max(0, upgrade.beans - beans);
+          let remainingRating = Math.max(0, upgrade.rating - rating).toFixed(1);
+          let remainingInvites = Math.max(0, upgrade.invites - invites);
+          let remainingHours = Math.max(0, 31 - hours);
+
+          document.getElementById("next-steps").innerHTML = `
+            <li>الترقية القادمة: <strong>${upgrade.next}</strong></li>
+            <li>تبقى ${remainingHours} ساعة بث</li>
+            <li>تبقى ${remainingRating} درجة تقييم</li>
+            <li>تبقى ${remainingInvites} دعوة</li>
+            <li>تبقى ${remainingBeans.toLocaleString()} فاصوليا</li>
+          `;
+        } else {
+          document.getElementById("next-steps").innerHTML = `
+            <li>أنت في أعلى رتبة أو لم تُعرف رتبتك.</li>
+          `;
+        }
 
         // المزايا
         document.getElementById("benefits").innerHTML =
