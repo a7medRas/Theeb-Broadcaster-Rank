@@ -144,6 +144,16 @@
           <div class="progress-bar" id="invites-bar"></div>
         </div>
       </div>
+
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>عدد الفاصوليا</span>
+          <span id="beans-text">-- / 10,000,000</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="beans-bar"></div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -169,10 +179,12 @@
     fetch(sheetAPI)
       .then(res => res.json())
       .then(data => {
+        const beans = parseInt(data.beans || 0);
+
         document.getElementById("username").textContent = data.username || "اسم غير معروف";
         document.getElementById("user-id").textContent = data.id || "غير متوفر";
         document.getElementById("current-rank").textContent = data.rank || "غير محدد";
-        document.getElementById("beans-count").textContent = data.beans || "0";
+        document.getElementById("beans-count").textContent = beans.toLocaleString();
 
         // الشارات
         document.getElementById("achievements").innerHTML =
@@ -182,15 +194,18 @@
         document.getElementById("hours-text").textContent = `${data.hours} / 100`;
         document.getElementById("rating-text").textContent = `${data.rating} / 5`;
         document.getElementById("invites-text").textContent = `${data.invites} / 4`;
+        document.getElementById("beans-text").textContent = `${beans.toLocaleString()} / 10,000,000`;
 
         document.getElementById("hours-bar").style.width = Math.min((data.hours / 100) * 100, 100) + "%";
         document.getElementById("rating-bar").style.width = Math.min((data.rating / 5) * 100, 100) + "%";
         document.getElementById("invites-bar").style.width = Math.min((data.invites / 4) * 100, 100) + "%";
+        document.getElementById("beans-bar").style.width = Math.min((beans / 10000000) * 100, 100) + "%";
 
         // المتبقي للترقية
         document.getElementById("next-steps").innerHTML = `
           <li>تبقى ${data.next_rank_hours} ساعة بث</li>
           <li>تبقى ${data.next_rank_invites} دعوة</li>
+          <li>تبقى ${(10000000 - beans).toLocaleString()} فاصوليا</li>
         `;
 
         // المزايا
