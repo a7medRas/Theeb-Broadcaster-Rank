@@ -5,20 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ملف المذيع</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s;
     }
+
+    .profile {
+      text-align: center;
+      padding: 2rem;
+      color: #222;
+    }
+
+    .profile img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 4px solid white;
+    }
+
+    .profile h2 {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+
+    .profile p {
+      font-size: 1.2rem;
+    }
+
     .rank-section {
       margin-top: 2rem;
     }
-    .rank-section select, .rank-section button {
-      padding: 0.5rem;
+
+    .rank-section select,
+    .rank-section button {
+      padding: 0.6rem 1rem;
       font-size: 1rem;
+      border-radius: 8px;
       margin: 0.5rem;
-      border-radius: 6px;
       border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
     }
   </style>
 </head>
@@ -43,18 +72,19 @@
   </section>
 
   <script>
-    // Demo: Set broadcaster data dynamically (in real app, this comes from server or URL query)
+    // استخراج البيانات من رابط الصفحة
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username") || "اسم غير معروف";
     const userId = params.get("id") || "لا يوجد";
+    const userRank = params.get("rank") || "beginner";
 
     document.getElementById("username").textContent = username;
     document.getElementById("user-id").textContent = userId;
+    document.getElementById("rank").value = userRank;
 
-    function upgradeUser() {
-      const selectedRank = document.getElementById("rank").value;
-      alert("تم ترقية " + username + " إلى رتبة: " + selectedRank);
-    }
-  </script>
-</body>
-</html>
+    // ألوان الخلفية حسب الرتبة
+    const rankColors = {
+      beginner: "#f2efe9",
+      pro: "#e6f7ff",
+      vip: "#fff2e6",
+      svip: "#f3e6ff",
