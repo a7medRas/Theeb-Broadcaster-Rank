@@ -10,7 +10,8 @@
       font-family: 'Cairo', sans-serif;
       margin: 0;
       padding: 0;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
+      background-color: #f2efe9; /* default */
     }
 
     .profile {
@@ -25,6 +26,7 @@
       border-radius: 50%;
       margin-bottom: 1rem;
       border: 4px solid white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     .profile h2 {
@@ -34,10 +36,20 @@
 
     .profile p {
       font-size: 1.2rem;
+      margin: 0.5rem 0;
     }
 
     .rank-section {
       margin-top: 2rem;
+      background: #fff;
+      padding: 1.5rem;
+      display: inline-block;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .rank-section h3 {
+      margin-bottom: 1rem;
     }
 
     .rank-section select,
@@ -49,13 +61,23 @@
       border: 1px solid #ccc;
       font-family: 'Cairo', sans-serif;
     }
+
+    .rank-section button {
+      background-color: #DCC6A0;
+      border: none;
+      cursor: pointer;
+    }
+
+    .rank-section button:hover {
+      background-color: #c8b38e;
+    }
   </style>
 </head>
 <body>
   <section class="profile">
     <img src="broadcaster.jpg" alt="صورة المذيع" />
     <h2 id="username">اسم المذيع</h2>
-    <p><strong>ID:</strong> <span id="user-id">معرف</span></p>
+    <p><strong>ID:</strong> <span id="user-id">لا يوجد</span></p>
 
     <div class="rank-section">
       <h3>ترقية المذيع</h3>
@@ -72,7 +94,7 @@
   </section>
 
   <script>
-    // استخراج البيانات من رابط الصفحة
+    // استخراج البيانات من الرابط
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username") || "اسم غير معروف";
     const userId = params.get("id") || "لا يوجد";
@@ -82,9 +104,22 @@
     document.getElementById("user-id").textContent = userId;
     document.getElementById("rank").value = userRank;
 
-    // ألوان الخلفية حسب الرتبة
+    // تغيير لون الخلفية حسب الرتبة
     const rankColors = {
       beginner: "#f2efe9",
       pro: "#e6f7ff",
       vip: "#fff2e6",
       svip: "#f3e6ff",
+      ssvip: "#fff0f0"
+    };
+    document.body.style.backgroundColor = rankColors[userRank] || "#ffffff";
+
+    // عند الترقية
+    function upgradeUser() {
+      const selectedRank = document.getElementById("rank").value;
+      alert("تم ترقية " + username + " إلى رتبة: " + selectedRank);
+      window.location.search = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(userId)}&rank=${selectedRank}`;
+    }
+  </script>
+</body>
+</html>
