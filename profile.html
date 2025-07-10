@@ -10,112 +10,197 @@
       font-family: 'Cairo', sans-serif;
       margin: 0;
       padding: 0;
-      transition: background-color 0.3s ease;
+      background-color: #fdf9f4;
+      color: #333;
     }
 
-    .profile {
-      text-align: center;
+    .container {
+      max-width: 700px;
+      margin: auto;
       padding: 2rem;
-      color: #222;
+      text-align: center;
     }
 
-    .profile img {
-      width: 150px;
-      height: 150px;
+    img {
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      margin-bottom: 1rem;
       border: 4px solid white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
     }
 
-    .profile h2 {
+    h2 {
+      margin-top: 1rem;
       font-size: 2rem;
-      margin: 0.5rem 0;
     }
 
-    .profile p {
-      font-size: 1.2rem;
-      margin: 0.5rem 0;
-    }
-
-    .rank-section {
-      margin-top: 2rem;
-      background: #fff;
-      padding: 1.5rem;
+    .badge {
       display: inline-block;
+      background: #DCC6A0;
+      color: #222;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    .achievements {
+      margin-top: 1rem;
+    }
+
+    .achievements span {
+      background: #ffeeba;
+      color: #444;
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      margin: 0.25rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      border: 1px solid #e3c778;
+    }
+
+    .section {
+      background: white;
       border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      text-align: right;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
 
-    .rank-section h3 {
+    .section h3 {
+      margin-bottom: 1rem;
+      color: #222;
+    }
+
+    .progress-item {
       margin-bottom: 1rem;
     }
 
-    .rank-section select,
-    .rank-section button {
-      padding: 0.6rem 1rem;
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .progress-bar-container {
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 4px;
+    }
+
+    .progress-bar {
+      background: #DCC6A0;
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s ease-in-out;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
       font-size: 1rem;
-      border-radius: 8px;
-      margin: 0.5rem;
-      border: 1px solid #ccc;
-      font-family: 'Cairo', sans-serif;
     }
 
-    .rank-section button {
-      background-color: #DCC6A0;
-      border: none;
-      cursor: pointer;
-    }
-
-    .rank-section button:hover {
-      background-color: #c8b38e;
+    ul li::before {
+      content: "✓ ";
+      color: green;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <section class="profile">
-    <img src="broadcaster.jpg" alt="صورة المذيع" />
+  <div class="container">
+    <img src="broadcaster.jpg" alt="صورة المذيع">
     <h2 id="username">اسم المذيع</h2>
-    <p><strong>ID:</strong> <span id="user-id">لا يوجد</span></p>
+    <p><strong>ID:</strong> <span id="user-id">123456</span></p>
+    <div class="badge" id="current-rank">💎 VIP</div>
 
-    <div class="rank-section">
-      <h3>ترقية المذيع</h3>
-      <label for="rank">اختر الرتبة الجديدة:</label>
-      <select id="rank">
-        <option value="beginner">🥉 مبتدئ</option>
-        <option value="pro">🥈 محترف</option>
-        <option value="vip">💎 VIP</option>
-        <option value="svip">👑 SVIP</option>
-        <option value="ssvip">🌟 SSVIP</option>
-      </select>
-      <button onclick="upgradeUser()">ترقية</button>
+    <!-- أوسمة -->
+    <div class="achievements">
+      <span>🔥 متفاعل دائم</span>
+      <span>⭐ تقييم عالي</span>
+      <span>🏆 أكثر دعوات</span>
     </div>
-  </section>
+
+    <!-- الشروط المحققة -->
+    <div class="section">
+      <h3>الشروط المحققة حتى الآن</h3>
+
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>ساعات البث</span>
+          <span>85 / 100</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width:85%;"></div>
+        </div>
+      </div>
+
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>التقييم</span>
+          <span>4.8 / 5</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width:96%;"></div>
+        </div>
+      </div>
+
+      <div class="progress-item">
+        <div class="progress-label">
+          <span>الدعوات</span>
+          <span>3 / 4</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width:75%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- المتبقي للترقية -->
+    <div class="section">
+      <h3>ما تبقى للترقية القادمة</h3>
+      <ul>
+        <li>تبقى 15 ساعة بث</li>
+        <li>تبقى دعوة واحدة</li>
+      </ul>
+    </div>
+
+    <!-- المزايا الحالية -->
+    <div class="section">
+      <h3>مزايا المستوى الحالي (💎 VIP)</h3>
+      <ul>
+        <li>دعم مخصص من الإدارة</li>
+        <li>ظهور في أعلى قوائم البث</li>
+        <li>زيادة في الأرباح بنسبة 10%</li>
+      </ul>
+    </div>
+  </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username") || "اسم غير معروف";
-    const userId = params.get("id") || "لا يوجد";
-    const userRank = params.get("rank") || "beginner";
+    const userId = params.get("id") || "غير متوفر";
+    const userRank = params.get("rank") || "vip";
+
+    const rankNames = {
+      beginner: "🥉 مبتدئ",
+      pro: "🥈 محترف",
+      vip: "💎 VIP",
+      svip: "👑 SVIP",
+      ssvip: "🌟 SSVIP"
+    };
 
     document.getElementById("username").textContent = username;
     document.getElementById("user-id").textContent = userId;
-    document.getElementById("rank").value = userRank;
-
-    const rankColors = {
-      beginner: "#f2efe9",
-      pro: "#e6f7ff",
-      vip: "#fff2e6",
-      svip: "#f3e6ff",
-      ssvip: "#fff0f0"
-    };
-    document.body.style.backgroundColor = rankColors[userRank] || "#ffffff";
-
-    function upgradeUser() {
-      const selectedRank = document.getElementById("rank").value;
-      alert("تم ترقية " + username + " إلى رتبة: " + selectedRank);
-      window.location.search = `?username=${encodeURIComponent(username)}&id=${encodeURIComponent(userId)}&rank=${selectedRank}`;
-    }
+    document.getElementById("current-rank").textContent = rankNames[userRank] || "💎 VIP";
   </script>
 </body>
 </html>
