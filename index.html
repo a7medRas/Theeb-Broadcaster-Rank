@@ -1,158 +1,43 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <title>لوحة الترقيات - THEEB</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-    }
-
-    header {
-      background: #222;
-      color: #fff;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 2rem;
-    }
-
-    input[type="text"] {
-      padding: 0.5rem;
-      width: 100%;
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 2rem;
-      background: white;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.75rem;
-      text-align: center;
-    }
-
-    th {
-      background: #f2f2f2;
-      font-weight: bold;
-    }
-
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-      color: #444;
-    }
-  </style>
-</head>
-<body>
-  <header>لوحة الترقيات - THEEB</header>
-
-  <div class="container">
-    <input type="text" id="searchInput" placeholder="ابحث عن مذيع بالاسم..." onkeyup="filterTable()">
-
-    <div class="section-title">جدول التصنيفات والشروط</div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>الرتبة</th>
-          <th>الشروط</th>
-          <th>المميزات</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>🥉 مبتدئ</td>
-          <td>31 ساعة بث<br>فاصوليا من 0 إلى 10,990<br>دعوة ناجحة: 1<br>تقييم: 2</td>
-          <td>مكافأة 1% على الراتب</td>
-        </tr>
-        <tr>
-          <td>🥈 محترف</td>
-          <td>31 ساعة بث<br>فاصوليا من 11,000 إلى 49,999<br>دعوات ناجحة: 3<br>تقييم: 2.5</td>
-          <td>2% + تاج لمدة 7 أيام</td>
-        </tr>
-        <tr>
-          <td>💎 VIP</td>
-          <td>31 ساعة بث<br>فاصوليا من 50,000 إلى 149,999<br>دعوات ناجحة: 5<br>تقييم: 3</td>
-          <td>4% + قسيمة شحن بقيمة 5$</td>
-        </tr>
-        <tr>
-          <td>👑 SVIP</td>
-          <td>31 ساعة بث<br>فاصوليا من 150,000 إلى 499,999<br>دعوات ناجحة: 10<br>تقييم: 4</td>
-          <td>7.5% + قسيمة شحن بقيمة 25$</td>
-        </tr>
-        <tr>
-          <td>🌟 SSVIP</td>
-          <td>31 ساعة بث<br>فاصوليا من 500,000 إلى 10,000,000<br>دعوات ناجحة: 10<br>تقييم: 5</td>
-          <td>10% + قسيمة شحن بقيمة 200$</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="section-title">قائمة المذيعين</div>
-    <table id="broadcasterTable">
-      <thead>
-        <tr>
-          <th>اسم المذيع</th>
-          <th>UID</th>
-          <th>ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><a href="profile.html?username=الشـيـخ ابـوعدى">الشـيـخ ابـوعدى</a></td><td>2634556871</td><td>560282169</td></tr>
-        <tr><td><a href="profile.html?username=Rody ᵀᴴᴱᴱᴮ">Rody ᵀᴴᴱᴱᴮ</a></td><td>382090348</td><td>786669423</td></tr>
-        <tr><td><a href="profile.html?username=Deja💋ᵀᴴᴱᴱᴮ">Deja💋ᵀᴴᴱᴱᴮ</a></td><td>2968422943</td><td>947393638</td></tr>
-        <tr><td><a href="profile.html?username=جاسمن🤍ᵀʰᵉᵉᵇ">جاسمن🤍ᵀʰᵉᵉᵇ</a></td><td>1167433407</td><td>Gogo100100</td></tr>
-        <tr><td><a href="profile.html?username=بكار الاهلاوي">بكار الاهلاوي</a></td><td>1084607841</td><td>065yuttiy</td></tr>
-        <tr><td><a href="profile.html?username=يويو .🧚ᵀʰᵉᵉᵇ">يويو .🧚ᵀʰᵉᵉᵇ</a></td><td>1227412947</td><td>mohamed_gamal232</td></tr>
-        <!-- أضف باقي المذيعين هنا بنفس النمط -->
-      </tbody>
-    </table>
-  </div>
-
-  <script>
-    function filterTable() {
-      var input = document.getElementById("searchInput");
-      var filter = input.value.toUpperCase();
-      var table = document.getElementById("broadcasterTable");
-      var tr = table.getElementsByTagName("tr");
-      for (var i = 1; i < tr.length; i++) {
-        var td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-          var txtValue = td.textContent || td.innerText;
-          tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-        }
-      }
-    }
-  </script>
-</body>
-</html>
+<table class="broadcaster-table">
+  <thead>
+    <tr>
+      <th>اسم المذيع</th>
+      <th>UID</th>
+      <th>ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="profile.html?username=الشـيـخ ابـوعدى">الشـيـخ ابـوعدى</a></td><td>2634556871</td><td>560282169</td></tr>
+    <tr><td><a href="profile.html?username=فوًكس°ᵀᴴᴱᴱᴮ°">فوًكس°ᵀᴴᴱᴱᴮ°</a></td><td>402823353</td><td>820834145</td></tr>
+    <tr><td><a href="profile.html?username=Rody ᵀᴴᴱᴱᴮ">Rody ᵀᴴᴱᴱᴮ</a></td><td>382090348</td><td>786669423</td></tr>
+    <tr><td><a href="profile.html?username=Deja💋ᵀᴴᴱᴱᴮ">Deja💋ᵀᴴᴱᴱᴮ</a></td><td>2968422943</td><td>947393638</td></tr>
+    <tr><td><a href="profile.html?username=باشممرضه💉ᵀʰᵉᵉᵇ">باشممرضه💉ᵀʰᵉᵉᵇ</a></td><td>2633671921</td><td>53Asm</td></tr>
+    <tr><td><a href="profile.html?username=أنا💅الشيخهᵀʰᵉᵉᵇ">أنا💅الشيخهᵀʰᵉᵉᵇ</a></td><td>2618365249</td><td>58opp</td></tr>
+    <tr><td><a href="profile.html?username=ꪔᖇ.ꪔᥲꪎ ᵀʰᵉᵉᵇ">ꪔᖇ.ꪔᥲꪎ ᵀʰᵉᵉᵇ</a></td><td>403477534</td><td>memss1234</td></tr>
+    <tr><td><a href="profile.html?username=☕جاسمن🤍ᵀʰᵉᵉᵇ">☕جاسمن🤍ᵀʰᵉᵉᵇ</a></td><td>1167433407</td><td>Gogo100100</td></tr>
+    <tr><td><a href="profile.html?username=بكار الاهلاوي">بكار الاهلاوي</a></td><td>1084607841</td><td>065yuttiy</td></tr>
+    <tr><td><a href="profile.html?username=💋のᶜᵃᵗの🐯ᵀʰᵉᵉᵇ">💋のᶜᵃᵗの🐯ᵀʰᵉᵉᵇ</a></td><td>1155311803</td><td>no_no507891</td></tr>
+    <tr><td><a href="profile.html?username=Yasmin ᵀʰᵉᵉᵇ">Yasmin ᵀʰᵉᵉᵇ</a></td><td>1237792791</td><td>1097073180</td></tr>
+    <tr><td><a href="profile.html?username=فرح ᵀʰᵉᵉᵇ">فرح ᵀʰᵉᵉᵇ</a></td><td>2957432723</td><td>939044719</td></tr>
+    <tr><td><a href="profile.html?username=فدوة. 🤍. ᵀᴴᴱᴱᴮ">فدوة. 🤍. ᵀᴴᴱᴱᴮ</a></td><td>1127930161</td><td>bobo77777</td></tr>
+    <tr><td><a href="profile.html?username=♡ꪝ᥆᧗ꪖᥒ♡">♡ꪝ᥆᧗ꪖᥒ♡</a></td><td>2612778208</td><td>53A277</td></tr>
+    <tr><td><a href="profile.html?username=يويو .🧚ᵀʰᵉᵉᵇ">يويو .🧚ᵀʰᵉᵉᵇ</a></td><td>1227412947</td><td>mohamed_gamal232</td></tr>
+    <tr><td><a href="profile.html?username=Roaaᵀʰᵉᵉᵇ">Roaaᵀʰᵉᵉᵇ</a></td><td>1236744335</td><td>roaa274182</td></tr>
+    <tr><td><a href="profile.html?username=زينه ᵀʰᵉᵉᵇ">زينه ᵀʰᵉᵉᵇ</a></td><td>1236656612</td><td>F1672016</td></tr>
+    <tr><td><a href="profile.html?username=ام فريده ᵀʰᵉᵉᵇ">ام فريده ᵀʰᵉᵉᵇ</a></td><td>1240887483</td><td>1100157602</td></tr>
+    <tr><td><a href="profile.html?username=ااااا">ااااا</a></td><td>1237953662</td><td>NovelLover2001</td></tr>
+    <tr><td><a href="profile.html?username=بكار الاهلاوي🌶">بكار الاهلاوي🌶</a></td><td>1110386682</td><td>bhgvbngv</td></tr>
+    <tr><td><a href="profile.html?username=☕♜رٍۆحٍ♜ᵀʰᵉᵉᵇ">☕♜رٍۆحٍ♜ᵀʰᵉᵉᵇ</a></td><td>1179007391</td><td>ROOH2020</td></tr>
+    <tr><td><a href="profile.html?username=Malekᵀʰᵉᵉᵇ">Malekᵀʰᵉᵉᵇ</a></td><td>1146133318</td><td>mohamed_malek99</td></tr>
+    <tr><td><a href="profile.html?username=جوري هانم🌹ᵀʰᵉᵉᵇ">جوري هانم🌹ᵀʰᵉᵉᵇ</a></td><td>1161853584</td><td>theeb.1996</td></tr>
+    <tr><td><a href="profile.html?username=مريمTHEEB♥️0">مريمTHEEB♥️0</a></td><td>1169780172</td><td>marim88</td></tr>
+    <tr><td><a href="profile.html?username=💞ᵀʰᵉᵉᵇ💞">💞ᵀʰᵉᵉᵇ💞</a></td><td>2957639993</td><td>Theeb.2021</td></tr>
+    <tr><td><a href="profile.html?username=طبيب القلوب">طبيب القلوب</a></td><td>2973386986</td><td>OsamarmaDan</td></tr>
+    <tr><td><a href="profile.html?username=Amr">Amr</a></td><td>1219454467</td><td>1078713523</td></tr>
+    <tr><td><a href="profile.html?username=ريهانا 👑الملكه">ريهانا 👑الملكه</a></td><td>1221286580</td><td>Rihannatheeb</td></tr>
+    <tr><td><a href="profile.html?username=شوشو الغاليه">شوشو الغاليه</a></td><td>1232143696</td><td>shimaa6</td></tr>
+    <tr><td><a href="profile.html?username=Mohamed Gamal">Mohamed Gamal</a></td><td>340479574</td><td>715394249</td></tr>
+    <tr><td><a href="profile.html?username=رورو 💜">رورو 💜</a></td><td>1235215028</td><td>1094466691</td></tr>
+    <tr><td><a href="profile.html?username=معروف الأحمد">معروف الأحمد</a></td><td>1235787641</td><td>1095076451</td></tr>
+  </tbody>
+</table>
