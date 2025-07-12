@@ -25,6 +25,7 @@
     .status {
       margin-top: 10px;
       font-weight: bold;
+      color: green;
     }
     .badges {
       display: flex;
@@ -100,23 +101,23 @@
 
     <div class="progress">
       <label>ساعات البث (31 ساعة)</label>
-      <div class="progress-bar"><div class="progress-bar-fill" id="hours-bar" style="width: 100%">31 / 31</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="hours-bar" style="width: 0%">0/31</div></div>
     </div>
     <div class="progress">
       <label>الفاصوليا</label>
-      <div class="progress-bar"><div class="progress-bar-fill" id="beans-bar">0 / 1,000,000</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="beans-bar" style="width: 0%">0 / ?</div></div>
     </div>
     <div class="progress">
       <label>الدعوات</label>
-      <div class="progress-bar"><div class="progress-bar-fill" id="invites-bar">0 / 10</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="invites-bar" style="width: 0%">0 / ?</div></div>
     </div>
     <div class="progress">
       <label>التقييم</label>
-      <div class="progress-bar"><div class="progress-bar-fill" id="rating-bar">0 / 5</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="rating-bar" style="width: 0%">0 / 5</div></div>
     </div>
 
     <div class="promotion-section">
-      <p id="rank-benefits">المزايا: -</p>
+      <p id="rank-benefits">المزايا:</p>
       <button class="promotion-btn" id="promotion-btn" style="display:none">ترقية المذيع</button>
     </div>
 
@@ -158,6 +159,9 @@
         document.getElementById("broadcaster-status").textContent = data.last_active_days <= 2 ? "🟢 مذيع نشط" : "🔴 غير نشط";
         document.getElementById("broadcaster-status").style.color = data.last_active_days <= 2 ? "green" : "red";
 
+        document.getElementById("hours-bar").style.width = "100%";
+        document.getElementById("hours-bar").textContent = "31/31";
+
         let beans = Number(data.beans || 0);
         let invites = Number(data.invites || 0);
         let rating = Number(data.rating || 0);
@@ -178,20 +182,14 @@
         // الشارات
         const badges = document.getElementById("badges");
         badges.innerHTML = '';
+
         if (rankIcons[data.rank]) badges.innerHTML += `<img class="badge" src="${rankIcons[data.rank]}">`;
         if (invites >= 5) badges.innerHTML += `<img class="badge" src="${inviteMedal}">`;
         if (rating >= 4) badges.innerHTML += `<img class="badge" src="${popularityMedal}">`;
 
-        // المزايا
         document.getElementById("rank-benefits").textContent = data.rank_benefits || "لا توجد مزايا";
-
-        // سجل الترقيات
-        document.getElementById("promotion-history").innerHTML = (data.history || []).map(item => `<li>📅 ${item}</li>`).join('');
-
-        // تنبيهات
-        document.getElementById("notifications-list").innerHTML = (data.notifications || []).map(item => `<li>🔔 ${item}</li>`).join('');
-
-        // زر الترقية
+        document.getElementById("promotion-history").innerHTML = data.history.map(item => `<li>📅 ${item}</li>`).join('');
+        document.getElementById("notifications-list").innerHTML = data.notifications.map(item => `<li>🔔 ${item}</li>`).join('');
         if (data.can_upgrade) {
           document.getElementById("promotion-btn").style.display = "inline-block";
         }
