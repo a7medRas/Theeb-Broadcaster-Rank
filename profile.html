@@ -25,7 +25,6 @@
     .status {
       margin-top: 10px;
       font-weight: bold;
-      color: green;
     }
     .badges {
       display: flex;
@@ -93,79 +92,111 @@
 <body>
   <div class="profile-container">
     <div class="name-section">
-      <h1>اسم المذيع</h1>
-      <p>ID: 123456789</p>
-      <p class="status">🔄 جاري التحقق من النشاط...</p>
-      <div class="badges">
-        <img src="https://imgg.io/images/2025/07/12/8b2e43ea5d5650a43fddd74afd039fa9.png" alt="رتبة" class="badge">
-        <img src="https://imgg.io/images/2025/07/12/25ab266bd99ef1cd9d1615f825f7361d.png" alt="دعوات" class="badge">
-        <img src="https://imgg.io/images/2025/07/12/a58816f9c98e947dfcc0275f158eb9bc.jpg" alt="شعبية" class="badge">
-      </div>
+      <h1 id="broadcaster-name">اسم المذيع</h1>
+      <p>ID: <span id="broadcaster-id">جار التحميل...</span></p>
+      <p class="status" id="broadcaster-status">🟢 جاري التحقق...</p>
+      <div class="badges" id="badges"></div>
     </div>
 
     <div class="progress">
       <label>ساعات البث (31 ساعة)</label>
-      <div class="progress-bar"><div class="progress-bar-fill" style="width: 100%">31/31</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="hours-bar" style="width: 100%">31 / 31</div></div>
     </div>
     <div class="progress">
       <label>الفاصوليا</label>
-      <div class="progress-bar"><div class="progress-bar-fill" style="width: 45%">45,000 / 100,000</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="beans-bar">0 / 1,000,000</div></div>
     </div>
     <div class="progress">
       <label>الدعوات</label>
-      <div class="progress-bar"><div class="progress-bar-fill" style="width: 60%">6 / 10</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="invites-bar">0 / 10</div></div>
     </div>
     <div class="progress">
       <label>التقييم</label>
-      <div class="progress-bar"><div class="progress-bar-fill" style="width: 80%">4 / 5</div></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="rating-bar">0 / 5</div></div>
     </div>
 
     <div class="promotion-section">
-      <p>المزايا: 4% + قسيمة شحن 5$</p>
-      <button class="promotion-btn">ترقية المذيع</button>
+      <p id="rank-benefits">المزايا: -</p>
+      <button class="promotion-btn" id="promotion-btn" style="display:none">ترقية المذيع</button>
     </div>
 
     <div class="history">
       <h3>سجل الترقيات</h3>
-      <ul>
-        <li>📅 تمت الترقية إلى محترف – 12 يوليو 2025</li>
-        <li>📅 تمت الترقية إلى VIP – 5 يونيو 2025</li>
+      <ul id="promotion-history">
+        <li>⏳ جاري التحميل...</li>
       </ul>
     </div>
 
     <div class="notifications">
       <h3>تنبيهات</h3>
-      <ul>
-        <li>🎉 اقتربت من الترقية إلى SVIP!</li>
-        <li>✅ أتممت 31 ساعة بث</li>
+      <ul id="notifications-list">
+        <li>⏳ جاري التحميل...</li>
       </ul>
     </div>
   </div>
 
-  <!-- 🔁 ربط الحالة تلقائيًا من Google Sheet -->
   <script>
-    const uid = "123456789"; // ← عدله حسب UID الفعلي
-    const endpoint = "https://script.google.com/macros/s/AKfycbxDEG_HqpC0cZdFe7AXu2tSpB3DJv8nEOkdfFnF04ml2SUhkkSaY7LaP5THjzy6NlPdHg/exec";
+    const sheetAPI = "https://script.google.com/macros/s/AKfycbxDEG_HqpC0cZdFe7AXu2tSpB3DJv8nEOkdfFnF04ml2SUhkkSaY7LaP5THjzy6NlPdHg/exec";
+    const uid = new URLSearchParams(window.location.search).get('uid');
 
-    fetch(`${endpoint}?uid=${uid}`)
+    const rankIcons = {
+      beginner: "https://imgg.io/images/2025/07/12/8b2e43ea5d5650a43fddd74afd039fa9.png",
+      pro: "https://imgg.io/images/2025/07/12/3993891616bea27611c0e39f0ea1f10e.png",
+      vip: "https://imgg.io/images/2025/07/12/fee96ffdc448d55d27b89291d8351aae.png",
+      svip: "https://imgg.io/images/2025/07/12/2eff80eab83a65f32ae04cbae0ab529f.png",
+      ssvip: "https://imgg.io/images/2025/07/12/2a01cd5e955dd40f1c3ad8798291a851.png"
+    };
+
+    const inviteMedal = "https://imgg.io/images/2025/07/12/25ab266bd99ef1cd9d1615f825f7361d.png";
+    const popularityMedal = "https://imgg.io/images/2025/07/12/a58816f9c98e947dfcc0275f158eb9bc.jpg";
+
+    fetch(sheetAPI + "?uid=" + uid)
       .then(res => res.json())
       .then(data => {
-        const lastBroadcast = new Date(data.last_broadcast);
-        const now = new Date();
-        const diffHours = (now - lastBroadcast) / (1000 * 60 * 60);
-        const statusEl = document.querySelector(".status");
+        document.getElementById("broadcaster-name").textContent = data.name || "اسم غير معروف";
+        document.getElementById("broadcaster-id").textContent = uid;
+        document.getElementById("broadcaster-status").textContent = data.last_active_days <= 2 ? "🟢 مذيع نشط" : "🔴 غير نشط";
+        document.getElementById("broadcaster-status").style.color = data.last_active_days <= 2 ? "green" : "red";
 
-        if (diffHours <= 48) {
-          statusEl.innerText = "🟢 مذيع نشط";
-          statusEl.style.color = "green";
-        } else {
-          statusEl.innerText = "🔴 غير نشط";
-          statusEl.style.color = "red";
+        let beans = Number(data.beans || 0);
+        let invites = Number(data.invites || 0);
+        let rating = Number(data.rating || 0);
+
+        let beansPercent = Math.min((beans / 1000000) * 100, 100);
+        let invitesPercent = Math.min((invites / 10) * 100, 100);
+        let ratingPercent = Math.min((rating / 5) * 100, 100);
+
+        document.getElementById("beans-bar").style.width = beansPercent + "%";
+        document.getElementById("beans-bar").textContent = beans.toLocaleString() + " / 1,000,000";
+
+        document.getElementById("invites-bar").style.width = invitesPercent + "%";
+        document.getElementById("invites-bar").textContent = invites + " / 10";
+
+        document.getElementById("rating-bar").style.width = ratingPercent + "%";
+        document.getElementById("rating-bar").textContent = rating + " / 5";
+
+        // الشارات
+        const badges = document.getElementById("badges");
+        badges.innerHTML = '';
+        if (rankIcons[data.rank]) badges.innerHTML += `<img class="badge" src="${rankIcons[data.rank]}">`;
+        if (invites >= 5) badges.innerHTML += `<img class="badge" src="${inviteMedal}">`;
+        if (rating >= 4) badges.innerHTML += `<img class="badge" src="${popularityMedal}">`;
+
+        // المزايا
+        document.getElementById("rank-benefits").textContent = data.rank_benefits || "لا توجد مزايا";
+
+        // سجل الترقيات
+        document.getElementById("promotion-history").innerHTML = (data.history || []).map(item => `<li>📅 ${item}</li>`).join('');
+
+        // تنبيهات
+        document.getElementById("notifications-list").innerHTML = (data.notifications || []).map(item => `<li>🔔 ${item}</li>`).join('');
+
+        // زر الترقية
+        if (data.can_upgrade) {
+          document.getElementById("promotion-btn").style.display = "inline-block";
         }
       })
-      .catch(() => {
-        document.querySelector(".status").innerText = "❔ غير معروف";
-      });
+      .catch(() => alert("فشل تحميل البيانات"));
   </script>
 </body>
 </html>
