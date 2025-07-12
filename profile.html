@@ -1,241 +1,170 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ملف المذيع</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Cairo', sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      transition: background-color 0.4s ease;
+      direction: rtl;
+      background-color: #fdfbf8;
+      padding: 20px;
     }
-    .container {
-      max-width: 700px;
+    .profile-container {
+      max-width: 800px;
       margin: auto;
-      padding: 2rem;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .name-section {
       text-align: center;
     }
-    img {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      border: 4px solid white;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    .status {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
     }
-    h2 {
-      margin-top: 1rem;
-      font-size: 2rem;
+    .badges {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
     }
     .badge {
-      display: inline-block;
-      background: #DCC6A0;
-      color: #222;
-      padding: 0.4rem 1rem;
-      border-radius: 30px;
+      width: 60px;
+    }
+    .progress {
+      margin: 15px 0;
+    }
+    .progress label {
       font-weight: bold;
-      margin-top: 0.5rem;
-    }
-    .achievements {
-      margin-top: 1rem;
-    }
-    .achievements span {
-      background: #ffeeba;
-      display: inline-block;
-      padding: 0.4rem 0.8rem;
-      margin: 0.25rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      border: 1px solid #e3c778;
-    }
-    .section {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-top: 1.5rem;
-      text-align: right;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    .section h3 {
-      margin-bottom: 1rem;
-    }
-    .progress-item {
-      margin-bottom: 1rem;
-    }
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.95rem;
-    }
-    .progress-bar-container {
-      background: #eee;
-      border-radius: 10px;
-      overflow: hidden;
-      height: 10px;
-      margin-top: 4px;
     }
     .progress-bar {
-      background: #DCC6A0;
-      height: 100%;
-      width: 0%;
-      transition: width 0.5s ease-in-out;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    ul li {
-      margin-bottom: 0.5rem;
-    }
-    ul li::before {
-      content: "✓ ";
-      color: green;
-      font-weight: bold;
-    }
-    #congrats {
-      display: none;
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-      padding: 1rem;
+      background-color: #eee;
       border-radius: 10px;
-      margin-top: 1rem;
-      font-weight: bold;
-      text-align: center;
+      overflow: hidden;
+      height: 20px;
+      margin-top: 5px;
     }
-    #upgrade-button {
-      display: none;
-      margin: 1rem auto;
-      padding: 0.7rem 2rem;
-      background: #28a745;
+    .progress-bar-fill {
+      height: 100%;
+      background-color: #76b900;
+      text-align: center;
+      color: white;
+      font-size: 12px;
+      line-height: 20px;
+    }
+    .promotion-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .promotion-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
+    }
+    .history, .notifications {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    .history h3, .notifications h3 {
+      margin-bottom: 10px;
+    }
+    .history ul, .notifications ul {
+      list-style: none;
+      padding-right: 20px;
+    }
+    .history li, .notifications li {
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="broadcaster.jpg" alt="صورة المذيع">
-    <h2 id="username">اسم المذيع</h2>
-    <p><strong>ID:</strong> <span id="user-id">--</span></p>
-    <p><strong>🫘 الفاصوليا:</strong> <span id="beans-count">--</span></p>
-    <div class="badge" id="current-rank">💎 VIP</div>
-
-    <div class="achievements" id="achievements">
-      <span>تحميل...</span>
+  <div class="profile-container">
+    <div class="name-section">
+      <h1>اسم المذيع</h1>
+      <p>ID: 123456789</p>
+      <p class="status">🔄 جاري التحقق من النشاط...</p>
+      <div class="badges">
+        <img src="https://imgg.io/images/2025/07/12/8b2e43ea5d5650a43fddd74afd039fa9.png" alt="رتبة" class="badge">
+        <img src="https://imgg.io/images/2025/07/12/25ab266bd99ef1cd9d1615f825f7361d.png" alt="دعوات" class="badge">
+        <img src="https://imgg.io/images/2025/07/12/a58816f9c98e947dfcc0275f158eb9bc.jpg" alt="شعبية" class="badge">
+      </div>
     </div>
 
-    <div class="section">
-      <h3>الشروط المحققة حتى الآن</h3>
-      <div class="progress-item"><div class="progress-label"><span>ساعات البث</span><span id="hours-text">-- / 31</span></div><div class="progress-bar-container"><div class="progress-bar" id="hours-bar"></div></div></div>
-      <div class="progress-item"><div class="progress-label"><span>التقييم</span><span id="rating-text">-- / 5</span></div><div class="progress-bar-container"><div class="progress-bar" id="rating-bar"></div></div></div>
-      <div class="progress-item"><div class="progress-label"><span>الدعوات</span><span id="invites-text">-- / 7</span></div><div class="progress-bar-container"><div class="progress-bar" id="invites-bar"></div></div></div>
-      <div class="progress-item"><div class="progress-label"><span>عدد الفاصوليا</span><span id="beans-text">-- / 500,000</span></div><div class="progress-bar-container"><div class="progress-bar" id="beans-bar"></div></div></div>
+    <div class="progress">
+      <label>ساعات البث (31 ساعة)</label>
+      <div class="progress-bar"><div class="progress-bar-fill" style="width: 100%">31/31</div></div>
+    </div>
+    <div class="progress">
+      <label>الفاصوليا</label>
+      <div class="progress-bar"><div class="progress-bar-fill" style="width: 45%">45,000 / 100,000</div></div>
+    </div>
+    <div class="progress">
+      <label>الدعوات</label>
+      <div class="progress-bar"><div class="progress-bar-fill" style="width: 60%">6 / 10</div></div>
+    </div>
+    <div class="progress">
+      <label>التقييم</label>
+      <div class="progress-bar"><div class="progress-bar-fill" style="width: 80%">4 / 5</div></div>
     </div>
 
-    <div class="section">
-      <h3>ما تبقى للترقية القادمة</h3>
-      <ul id="next-steps"><li>تحميل البيانات...</li></ul>
+    <div class="promotion-section">
+      <p>المزايا: 4% + قسيمة شحن 5$</p>
+      <button class="promotion-btn">ترقية المذيع</button>
     </div>
 
-    <div id="congrats">🎉 مبروك! تم تحقيق جميع شروط الترقية</div>
-    <button id="upgrade-button">ترقية المذيع</button>
+    <div class="history">
+      <h3>سجل الترقيات</h3>
+      <ul>
+        <li>📅 تمت الترقية إلى محترف – 12 يوليو 2025</li>
+        <li>📅 تمت الترقية إلى VIP – 5 يونيو 2025</li>
+      </ul>
+    </div>
 
-    <div class="section">
-      <h3>مزايا المستوى الحالي</h3>
-      <ul id="benefits"><li>تحميل...</li></ul>
+    <div class="notifications">
+      <h3>تنبيهات</h3>
+      <ul>
+        <li>🎉 اقتربت من الترقية إلى SVIP!</li>
+        <li>✅ أتممت 31 ساعة بث</li>
+      </ul>
     </div>
   </div>
 
+  <!-- 🔁 ربط الحالة تلقائيًا من Google Sheet -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get("username");
-    const sheetAPI = "https://script.google.com/macros/s/AKfycbxDEG_HqpC0cZdFe7AXu2tSpB3DJv8nEOkdfFnF04ml2SUhkkSaY7LaP5THjzy6NlPdHg/exec?username=" + encodeURIComponent(username);
+    const uid = "123456789"; // ← عدله حسب UID الفعلي
+    const endpoint = "https://script.google.com/macros/s/AKfycbxDEG_HqpC0cZdFe7AXu2tSpB3DJv8nEOkdfFnF04ml2SUhkkSaY7LaP5THjzy6NlPdHg/exec";
 
-    fetch(sheetAPI)
+    fetch(`${endpoint}?uid=${uid}`)
       .then(res => res.json())
       .then(data => {
-        const beans = parseInt(data.beans || 0);
-        const rating = parseFloat(data.rating || 0);
-        const invites = parseInt(data.invites || 0);
-        const hours = parseInt(data.hours || 0);
-        const currentRank = (data.rank || "").toLowerCase();
+        const lastBroadcast = new Date(data.last_broadcast);
+        const now = new Date();
+        const diffHours = (now - lastBroadcast) / (1000 * 60 * 60);
+        const statusEl = document.querySelector(".status");
 
-        document.getElementById("username").textContent = data.username || "اسم غير معروف";
-        document.getElementById("user-id").textContent = data.id || "غير متوفر";
-        document.getElementById("current-rank").textContent = data.rank || "غير محدد";
-        document.getElementById("beans-count").textContent = beans.toLocaleString();
-
-        // لون الخلفية حسب الرتبة
-        const bgColors = {
-          "مبتدئ": "#fdf9f4",
-          "محترف": "#f5ecd8",
-          "vip": "#fff6d1",
-          "svip": "#fce9a6",
-          "ssvip": "#fae48b"
-        };
-        document.body.style.backgroundColor = bgColors[currentRank] || "#fdf9f4";
-
-        // الشارات
-        document.getElementById("achievements").innerHTML =
-          data.achievements.split(';').map(a => `<span>${a}</span>`).join('');
-
-        // Progress
-        document.getElementById("hours-text").textContent = `${hours} / 31`;
-        document.getElementById("rating-text").textContent = `${rating} / 5`;
-        document.getElementById("invites-text").textContent = `${invites} / 7`;
-        document.getElementById("beans-text").textContent = `${beans.toLocaleString()} / 500,000`;
-
-        document.getElementById("hours-bar").style.width = Math.min((hours / 31) * 100, 100) + "%";
-        document.getElementById("rating-bar").style.width = Math.min((rating / 5) * 100, 100) + "%";
-        document.getElementById("invites-bar").style.width = Math.min((invites / 7) * 100, 100) + "%";
-        document.getElementById("beans-bar").style.width = Math.min((beans / 500000) * 100, 100) + "%";
-
-        const ranks = {
-          "مبتدئ": { next: "محترف", beans: 11000, rating: 3.5, invites: 1 },
-          "محترف": { next: "VIP", beans: 50000, rating: 4.0, invites: 3 },
-          "vip": { next: "SVIP", beans: 150000, rating: 4.5, invites: 5 },
-          "svip": { next: "SSVIP", beans: 500000, rating: 4.8, invites: 7 }
-        };
-
-        let upgrade = ranks[currentRank] || null;
-
-        if (upgrade) {
-          let remainingBeans = Math.max(0, upgrade.beans - beans);
-          let remainingRating = Math.max(0, upgrade.rating - rating).toFixed(1);
-          let remainingInvites = Math.max(0, upgrade.invites - invites);
-          let remainingHours = Math.max(0, 31 - hours);
-
-          document.getElementById("next-steps").innerHTML = `
-            <li>الترقية القادمة: <strong>${upgrade.next}</strong></li>
-            <li>تبقى ${remainingHours} ساعة بث</li>
-            <li>تبقى ${remainingRating} درجة تقييم</li>
-            <li>تبقى ${remainingInvites} دعوة</li>
-            <li>تبقى ${remainingBeans.toLocaleString()} فاصوليا</li>
-          `;
-
-          // تحقق الشروط كاملة؟
-          if (remainingHours <= 0 && remainingRating <= 0 && remainingInvites <= 0 && remainingBeans <= 0) {
-            document.getElementById("congrats").style.display = "block";
-            document.getElementById("upgrade-button").style.display = "inline-block";
-          }
+        if (diffHours <= 48) {
+          statusEl.innerText = "🟢 مذيع نشط";
+          statusEl.style.color = "green";
         } else {
-          document.getElementById("next-steps").innerHTML = `<li>أنت في أعلى رتبة أو لم تُعرف رتبتك.</li>`;
+          statusEl.innerText = "🔴 غير نشط";
+          statusEl.style.color = "red";
         }
-
-        // مزايا
-        document.getElementById("benefits").innerHTML =
-          data.benefits.split(';').map(b => `<li>${b}</li>`).join('');
       })
-      .catch(err => {
-        alert("حدث خطأ أثناء تحميل البيانات");
-        console.error(err);
+      .catch(() => {
+        document.querySelector(".status").innerText = "❔ غير معروف";
       });
   </script>
 </body>
