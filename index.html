@@ -26,6 +26,14 @@
       border-radius: 6px;
     }
 
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -56,7 +64,15 @@
     a:hover {
       text-decoration: underline;
     }
+
+    /* ألوان الرتب */
+    .rank-beginner { background-color: #f1f8e9; }
+    .rank-pro      { background-color: #e3f2fd; }
+    .rank-vip      { background-color: #fce4ec; }
+    .rank-svip     { background-color: #fff3e0; }
+    .rank-ssvip    { background-color: #ede7f6; }
   </style>
+
   <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -65,6 +81,8 @@
 
   <a class="add-btn" href="add_broadcaster.html">➕ إضافة مذيع جديد</a>
 
+  <input type="text" id="searchInput" placeholder="ابحث باسم المذيع...">
+
   <table>
     <thead>
       <tr>
@@ -72,7 +90,6 @@
         <th>UID</th>
         <th>ID</th>
       </tr>
-    </thead>
   <tbody>
     <tr><td><a href="profile.html?username=الشـيـخ ابـوعدى">الشـيـخ ابـوعدى</a></td><td>2634556871</td><td>560282169</td></tr>
     <tr><td><a href="profile.html?username=فوًكس°ᵀᴴᴱᴱᴮ°">فوًكس°ᵀᴴᴱᴱᴮ°</a></td><td>402823353</td><td>820834145</td></tr>
@@ -107,7 +124,7 @@
     <tr><td><a href="profile.html?username=رورو 💜">رورو 💜</a></td><td>1235215028</td><td>1094466691</td></tr>
     <tr><td><a href="profile.html?username=معروف الأحمد">معروف الأحمد</a></td><td>1235787641</td><td>1095076451</td></tr>
   </tbody>
-  </table>
+</table>
 
   <h2 style="margin-top: 40px;">جدول التصنيفات والشروط</h2>
 
@@ -120,17 +137,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="rank-beginner">
         <td>🥉 مبتدئ</td>
         <td>
           31 ساعة بث<br>
-          فاصوليا: 0 – 10990<br>
+          فاصوليا: 0 – 10999<br>
           1 دعوة ناجحة<br>
           تقييم 2
         </td>
         <td>مكافأة 1% على الراتب</td>
       </tr>
-      <tr>
+      <tr class="rank-pro">
         <td>🥈 محترف</td>
         <td>
           31 ساعة بث<br>
@@ -140,7 +157,7 @@
         </td>
         <td>2% + تاج لمدة 7 أيام</td>
       </tr>
-      <tr>
+      <tr class="rank-vip">
         <td>💎 VIP</td>
         <td>
           31 ساعة بث<br>
@@ -150,7 +167,7 @@
         </td>
         <td>4% + قسيمة شحن بقيمة 5$</td>
       </tr>
-      <tr>
+      <tr class="rank-svip">
         <td>👑 SVIP</td>
         <td>
           31 ساعة بث<br>
@@ -160,7 +177,7 @@
         </td>
         <td>7.5% + قسيمة شحن بقيمة 25$</td>
       </tr>
-      <tr>
+      <tr class="rank-ssvip">
         <td>🌟 SSVIP</td>
         <td>
           31 ساعة بث<br>
@@ -172,6 +189,19 @@
       </tr>
     </tbody>
   </table>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function () {
+      const filter = searchInput.value.trim().toLowerCase();
+      const rows = document.querySelectorAll('table tbody tr');
+
+      rows.forEach(row => {
+        const nameCell = row.cells[0].textContent.trim().toLowerCase();
+        row.style.display = nameCell.includes(filter) ? '' : 'none';
+      });
+    });
+  </script>
 
 </body>
 </html>
