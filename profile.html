@@ -25,7 +25,6 @@
     .status {
       margin-top: 10px;
       font-weight: bold;
-      color: green;
     }
     .badges {
       display: flex;
@@ -138,7 +137,7 @@
 
   <script>
     const sheetAPI = "https://script.google.com/macros/s/AKfycbxDEG_HqpC0cZdFe7AXu2tSpB3DJv8nEOkdfFnF04ml2SUhkkSaY7LaP5THjzy6NlPdHg/exec";
-    const uid = new URLSearchParams(window.location.search).get('uid');
+    const username = new URLSearchParams(window.location.search).get('username');
 
     const rankIcons = {
       beginner: "https://imgg.io/images/2025/07/12/8b2e43ea5d5650a43fddd74afd039fa9.png",
@@ -151,11 +150,11 @@
     const inviteMedal = "https://imgg.io/images/2025/07/12/25ab266bd99ef1cd9d1615f825f7361d.png";
     const popularityMedal = "https://imgg.io/images/2025/07/12/a58816f9c98e947dfcc0275f158eb9bc.jpg";
 
-    fetch(sheetAPI + "?uid=" + uid)
+    fetch(sheetAPI + "?username=" + encodeURIComponent(username))
       .then(res => res.json())
       .then(data => {
         document.getElementById("broadcaster-name").textContent = data.name || "اسم غير معروف";
-        document.getElementById("broadcaster-id").textContent = uid;
+        document.getElementById("broadcaster-id").textContent = data.id || "غير متاح";
         document.getElementById("broadcaster-status").textContent = data.last_active_days <= 2 ? "🟢 مذيع نشط" : "🔴 غير نشط";
         document.getElementById("broadcaster-status").style.color = data.last_active_days <= 2 ? "green" : "red";
 
@@ -179,7 +178,6 @@
         document.getElementById("rating-bar").style.width = ratingPercent + "%";
         document.getElementById("rating-bar").textContent = rating + " / 5";
 
-        // الشارات
         const badges = document.getElementById("badges");
         badges.innerHTML = '';
 
@@ -187,9 +185,11 @@
         if (invites >= 5) badges.innerHTML += `<img class="badge" src="${inviteMedal}">`;
         if (rating >= 4) badges.innerHTML += `<img class="badge" src="${popularityMedal}">`;
 
-        document.getElementById("rank-benefits").textContent = data.rank_benefits || "لا توجد مزايا";
+        document.getElementById("rank-benefits").textContent = data.benefits || "لا توجد مزايا";
+
         document.getElementById("promotion-history").innerHTML = data.history.map(item => `<li>📅 ${item}</li>`).join('');
         document.getElementById("notifications-list").innerHTML = data.notifications.map(item => `<li>🔔 ${item}</li>`).join('');
+
         if (data.can_upgrade) {
           document.getElementById("promotion-btn").style.display = "inline-block";
         }
